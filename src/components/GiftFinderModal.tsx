@@ -266,32 +266,28 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
                   Answer a few questions and we'll suggest some ideas.
                 </DialogDescription>
               </DialogHeader>
-              <div className="px-1 mb-4 mt-3 flex flex-wrap justify-center items-center gap-x-1 gap-y-1 md:gap-x-2 text-xs md:text-sm border-y border-border py-3 -mx-6 bg-muted/30">
+              <div className="px-1 mb-4 mt-3 grid grid-cols-2 md:grid-cols-4 gap-2 text-xs md:text-sm border-y border-border py-3 -mx-6 bg-muted/30">
                 {selectionKeys.map((key, index) => {
                   const stepForButton = index + 1;
                   const isCompleted = selections[key] !== null && (key !== 'interests' || (selections[key] as string[]).length > 0);
                   
-                  // Logic to determine if this step summary button should be shown:
-                  // 1. It's a previous step OR the current step.
-                  // 2. OR It's the next immediate step (currentStep + 1) and currentStep is not the last questionnaire step.
-                  // 3. OR It's any step that has already been completed (isCompleted is true).
                   const shouldShowButton = 
                     stepForButton <= currentStep ||
                     (stepForButton === currentStep + 1 && currentStep < totalSteps) ||
                     isCompleted;
 
                   if (!shouldShowButton) {
-                    return null; // Don't render this button yet
+                    return null;
                   }
 
                   return (
-                    <React.Fragment key={key}>
                       <Button
+                        key={key}
                         variant="ghost"
                         size="sm"
                         onClick={() => navigateToStep(stepForButton)}
                         className={cn(
-                          "h-auto px-2 py-1 text-left !text-xs md:!text-sm whitespace-normal",
+                          "h-auto px-2 py-1 text-left !text-xs md:!text-sm whitespace-normal justify-start", // Added justify-start for better alignment in grid cells
                           currentStep === stepForButton ? "bg-primary/10 text-primary font-semibold ring-1 ring-primary/50" : "hover:bg-accent/50",
                            isCompleted ? (currentStep === stepForButton ? "text-primary" : "text-primary/80") : "text-muted-foreground"
                         )}
@@ -299,15 +295,6 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
                       >
                         {stepLabels[index]}: {getStepSummaryText(key)}
                       </Button>
-                      {/* Show separator if this button is shown and it's not the last conceptual step in the summary bar */}
-                      {stepForButton < totalSteps && 
-                       ( (stepForButton + 1 <= currentStep) || // Next step is also a past/current step
-                         (stepForButton + 1 === currentStep + 1 && currentStep + 1 < totalSteps +1) || // Next step is the upcoming one
-                         (selections[selectionKeys[index+1]] !== null && (selectionKeys[index+1] !== 'interests' || (selections[selectionKeys[index+1]] as string[]).length > 0)) // Next step is completed
-                       ) &&
-                       <span className="text-muted-foreground/30 text-base leading-none align-middle">›</span>
-                      }
-                    </React.Fragment>
                   );
                 })}
               </div>
