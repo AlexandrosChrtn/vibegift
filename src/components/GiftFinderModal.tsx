@@ -271,10 +271,11 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
                   const stepForButton = index + 1;
                   const isCompleted = selections[key] !== null && (key !== 'interests' || (selections[key] as string[]).length > 0);
                   
+                  // Updated logic: Show if it's a past step, the current step, or any completed step.
+                  // This prevents showing "NextStep: Not Selected" prematurely.
                   const shouldShowButton = 
-                    stepForButton <= currentStep ||
-                    (stepForButton === currentStep + 1 && currentStep < totalSteps) ||
-                    isCompleted;
+                    stepForButton <= currentStep || // Is a previous or current step
+                    isCompleted;                   // Or the step is already completed
 
                   if (!shouldShowButton) {
                     return null;
@@ -287,7 +288,7 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
                         size="sm"
                         onClick={() => navigateToStep(stepForButton)}
                         className={cn(
-                          "h-auto px-2 py-1 text-left !text-xs md:!text-sm whitespace-normal justify-start", // Added justify-start for better alignment in grid cells
+                          "h-auto px-2 py-1 text-left !text-xs md:!text-sm whitespace-normal justify-start",
                           currentStep === stepForButton ? "bg-primary/10 text-primary font-semibold ring-1 ring-primary/50" : "hover:bg-accent/50",
                            isCompleted ? (currentStep === stepForButton ? "text-primary" : "text-primary/80") : "text-muted-foreground"
                         )}
