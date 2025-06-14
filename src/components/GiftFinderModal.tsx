@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { useState, useEffect, useCallback } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import BubbleSelect from './BubbleSelect';
 import ProductCard from './ProductCard';
 import { Product, GiftFinderSelections, ageRanges, genders, occasions, interestsList } from '@/types';
-import { Loader2, Search, Sparkles, X } from 'lucide-react';
+import { Loader2, Search, Sparkles, XCircle, Edit3, CheckCircle2 } from 'lucide-react';
+
 interface GiftFinderModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -39,6 +40,7 @@ const fetchGiftSuggestions = async (selections: GiftFinderSelections): Promise<P
     return []; // Return empty array on error
   }
 };
+
 const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
   isOpen,
   onClose
@@ -70,47 +72,66 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
       setError(null);
     }
   }, [isOpen]);
+
+  const goToStep = useCallback((targetStep: number) => {
+    setSuggestedGifts([]); // Clear results if any
+    setError(null); // Clear error if any
+    setIsLoading(false); // Ensure loading is reset
+
+    const newSelections = { ...selections };
+    if (targetStep <= 3) newSelections.interests = []; // Clear interests if going to/before occasion
+    if (targetStep <= 2) newSelections.occasion = null; // Clear occasion if going to/before gender
+    if (targetStep <= 1) newSelections.gender = null;   // Clear gender if going to age
+    // ageRange is not cleared if targetStep is 1, user is editing it.
+    
+    setSelections(newSelections);
+    setCurrentStep(targetStep);
+  }, [selections]);
+  
   const handleSelect = (field: keyof GiftFinderSelections, value: string) => {
     setSelections(prev => {
+      const newSelections = { ...prev };
       if (field === 'interests') {
         const currentInterests = prev.interests;
         if (currentInterests.includes(value)) {
-          return {
-            ...prev,
-            interests: currentInterests.filter(i => i !== value)
-          };
+          newSelections.interests = currentInterests.filter(i => i !== value);
+        } else if (newSelections.interests.length < 5) { // Max 5 interests
+          newSelections.interests = [...currentInterests, value];
         }
-        return {
-          ...prev,
-          interests: [...currentInterests, value].slice(0, 5)
-        }; // Max 5 interests
+      } else {
+        (newSelections[field] as string | null) = value;
       }
-      return {
-        ...prev,
-        [field]: value
-      };
+      return newSelections;
     });
   };
-  const handleNextStep = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(prev => prev + 1);
-    } else {
-      // Last step, find gifts
-      findGifts();
+
+  // Auto-advance effect
+  useEffect(() => {
+    if (isLoading || error || suggestedGifts.length > 0) return;
+
+    if (currentStep === 1 && selections.ageRange) {
+      setCurrentStep(2);
+    } else if (currentStep === 2 && selections.gender) {
+      setCurrentStep(3);
+    } else if (currentStep === 3 && selections.occasion) {
+      setCurrentStep(4);
     }
-  };
+    // Step 4 (Interests) does not auto-advance to results. User clicks "Find Gifts".
+  }, [selections, currentStep, isLoading, error, suggestedGifts.length]);
+
+
   const handlePreviousStep = () => {
     if (suggestedGifts.length > 0) {
-      // If showing results, go back to interest selection
       setSuggestedGifts([]);
       setError(null);
-      setCurrentStep(totalSteps); // Go to interests selection
+      setCurrentStep(totalSteps); // Go back to interests selection
       return;
     }
     if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
+      goToStep(currentStep - 1);
     }
   };
+
   const findGifts = async () => {
     setIsLoading(true);
     setError(null);
@@ -128,6 +149,50 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
       setIsLoading(false);
     }
   };
+
+  const SelectionsSummary: React.FC = () => {
+    if (isLoading || error || suggestedGifts.length > 0 || currentStep === 1 && !selections.ageRange) {
+      return null;
+    }
+
+    const summaryItems = [
+      { label: "Age", value: selections.ageRange, step: 1 },
+      { label: "Gender", value: selections.gender, step: 2 },
+      { label: "Occasion", value: selections.occasion, step: 3 },
+      { label: "Interests", value: selections.interests.join(', '), step: 4, isList: true },
+    ];
+
+    return (
+      <div className="mb-4 p-3 bg-muted/10 rounded-lg border border-muted text-sm">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+        {summaryItems.map(item => {
+          if (!item.value || (item.isList && selections.interests.length === 0)) return null;
+          
+          const isCurrentStepSelection = item.step === currentStep;
+          const isCompletedStep = selections.ageRange && item.step === 1 ||
+                                  selections.gender && item.step === 2 ||
+                                  selections.occasion && item.step === 3 ||
+                                  selections.interests.length > 0 && item.step === 4;
+
+          return (
+            <Button
+              key={item.label}
+              variant="ghost"
+              size="sm"
+              className={`p-1 h-auto text-xs ${isCurrentStepSelection ? 'font-semibold text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+              onClick={() => goToStep(item.step)}
+              title={`Edit ${item.label}`}
+            >
+              {isCompletedStep && !isCurrentStepSelection ? <CheckCircle2 className="w-3 h-3 mr-1 text-green-500" /> : <Edit3 className="w-3 h-3 mr-1" />}
+              {item.label}: {item.value}
+            </Button>
+          );
+        })}
+        </div>
+      </div>
+    );
+  };
+
   const renderStepContent = () => {
     if (isLoading) {
       return <div className="flex flex-col items-center justify-center h-64 animate-fade-in">
@@ -137,12 +202,11 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
     }
     if (error) {
       return <div className="flex flex-col items-center justify-center h-64 text-center animate-fade-in">
-          <X className="h-16 w-16 text-destructive mb-4" />
+          <XCircle className="h-16 w-16 text-destructive mb-4" />
           <p className="text-lg text-destructive-foreground">{error}</p>
            <Button onClick={() => {
           setError(null);
-          setCurrentStep(totalSteps);
-          setSuggestedGifts([]);
+          goToStep(totalSteps); 
         }} className="mt-4">
             Try Again
           </Button>
@@ -174,48 +238,65 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
         return null;
     }
   };
-  const isNextDisabled = () => {
-    switch (currentStep) {
-      case 1:
-        return !selections.ageRange;
-      case 2:
-        return !selections.gender;
-      case 3:
-        return !selections.occasion;
-      case 4:
-        return selections.interests.length === 0;
-      default:
-        return false;
-    }
+
+  const isFindGiftsDisabled = () => {
+    // Only for step 4
+    return currentStep === totalSteps && selections.interests.length === 0;
   };
+
   return <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] p-0 animate-pop-in">
         <div className="p-6 py-[12px]">
-          {suggestedGifts.length === 0 && !isLoading && !error && <DialogHeader className="mb-6 text-center">
+          {suggestedGifts.length === 0 && !isLoading && !error && 
+            <DialogHeader className="mb-2 text-center">
               <DialogTitle className="text-2xl">Let's Find The Perfect Gift!</DialogTitle>
               <DialogDescription>
-                Answer a few questions and we'll suggest some ideas. Step {currentStep} of {totalSteps}.
+                Answer a few questions and we'll suggest some ideas.
+                {` Step ${currentStep} of ${totalSteps}.`}
               </DialogDescription>
-            </DialogHeader>}
+            </DialogHeader>
+          }
+          {!isLoading && !error && suggestedGifts.length === 0 && <SelectionsSummary />}
           
           <div className="min-h-[200px] flex flex-col justify-center">
              {renderStepContent()}
           </div>
         </div>
 
-        {!isLoading && !error && <DialogFooter className="p-6 bg-muted/50 border-t py-[6px]">
-            {(currentStep > 1 || suggestedGifts.length > 0) && <Button variant="outline" onClick={handlePreviousStep}>
-                {suggestedGifts.length > 0 ? "Edit Selections" : "Previous"}
-              </Button>}
-            {suggestedGifts.length === 0 && <Button onClick={handleNextStep} disabled={isNextDisabled()}>
-                {currentStep === totalSteps ? "Find Gifts" : "Next"}
-                {currentStep === totalSteps && <Search className="ml-2 h-4 w-4" />}
-              </Button>}
-            {suggestedGifts.length > 0 && <Button onClick={onClose}>Close</Button>}
-          </DialogFooter>}
-         {(isLoading || error) && suggestedGifts.length === 0 && <DialogFooter className="p-6 bg-muted/50 border-t justify-center">
-             <Button variant="ghost" onClick={onClose}>Cancel</Button>
-           </DialogFooter>}
+        <DialogFooter className="p-6 bg-muted/50 border-t py-[6px]">
+            {isLoading || error ? (
+              <div className="flex justify-center w-full">
+                 <DialogClose asChild>
+                    <Button variant="ghost">Cancel</Button>
+                 </DialogClose>
+              </div>
+            ) : suggestedGifts.length > 0 ? (
+              <>
+                <Button variant="outline" onClick={handlePreviousStep}>
+                  Edit Selections
+                </Button>
+                <DialogClose asChild>
+                    <Button>Close</Button>
+                </DialogClose>
+              </>
+            ) : (
+              <>
+                {currentStep > 1 && (
+                  <Button variant="outline" onClick={handlePreviousStep}>
+                    Previous
+                  </Button>
+                )}
+                {currentStep === 1 && <div className="flex-grow"></div>} 
+                
+                {currentStep === totalSteps && (
+                  <Button onClick={findGifts} disabled={isFindGiftsDisabled()}>
+                    Find Gifts
+                    <Search className="ml-2 h-4 w-4" />
+                  </Button>
+                )}
+              </>
+            )}
+          </DialogFooter>
       </DialogContent>
     </Dialog>;
 };
