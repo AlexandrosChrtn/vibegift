@@ -1,15 +1,12 @@
-
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Link as RouterLink } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ShieldCheck, Sparkles } from 'lucide-react';
-
 const PrivacyPolicyPage = () => {
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-12 md:py-16">
+      <main className="flex-grow container mx-auto px-4 md:py-16 py-[12px]">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <div className="inline-block relative">
@@ -29,8 +26,6 @@ const PrivacyPolicyPage = () => {
         </div>
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default PrivacyPolicyPage;
