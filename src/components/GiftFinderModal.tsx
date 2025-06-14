@@ -56,6 +56,7 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
   const [suggestedGifts, setSuggestedGifts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastSelectedStep, setLastSelectedStep] = useState<number | null>(null); // To track for auto-advance
   
   const totalSteps = 4; // Age, Gender, Occasion, Interests
   const stepLabels = ["Age", "Gender", "Occasion", "Interests"];
@@ -74,6 +75,7 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
       setSuggestedGifts([]);
       setIsLoading(false);
       setError(null);
+      setLastSelectedStep(null);
     }
   }, [isOpen]);
 
@@ -100,7 +102,6 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
         };
       }
       
-      // If user changes a selection while results are shown, clear results.
       if (suggestedGifts.length > 0) {
         setSuggestedGifts([]);
         setError(null);
@@ -108,11 +109,49 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
       return newSelectionsState;
     });
 
-    // Auto-advance logic for single-select steps
-    if (field !== 'interests' && currentStep < totalSteps) {
-       setCurrentStep(prevStep => prevStep + 1);
+    if (field !== 'interests') {
+        setLastSelectedStep(currentStep); // currentStep is the step where selection was made
     }
-  }, [currentStep, totalSteps, suggestedGifts.length]);
+  }, [currentStep, suggestedGifts.length]);
+
+  // Effect to handle auto-advancing and skipping answered questions
+  useEffect(() => {
+    if (lastSelectedStep === null || lastSelectedStep === totalSteps) { // No auto-advance from interests or if not triggered
+      setLastSelectedStep(null); // Reset if it was totalSteps
+      return;
+    }
+
+    let targetStep = totalSteps; // Default to last step (Interests)
+    let foundNextUnanswered = false;
+
+    // Start checking from the step *after* the one that was just selected
+    for (let stepNumber = lastSelectedStep + 1; stepNumber <= totalSteps; stepNumber++) {
+      const keyIndex = stepNumber - 1;
+      const stepKey = selectionKeys[keyIndex];
+      let isAnswered;
+      if (stepKey === 'interests') {
+        isAnswered = selections.interests.length > 0;
+      } else {
+        // selections[stepKey] might be stale here if setSelections hasn't updated the 'selections' state
+        // for *this* render cycle yet. However, for *subsequent* steps, it's fine.
+        // The selection for `lastSelectedStep` itself IS updated in `selections` by the time this effect runs.
+        isAnswered = selections[stepKey] !== null;
+      }
+
+      if (!isAnswered) {
+        targetStep = stepNumber;
+        foundNextUnanswered = true;
+        break;
+      }
+    }
+    
+    // If all subsequent steps were already answered, targetStep remains totalSteps.
+    // If lastSelectedStep was already totalSteps-1 and interests is not filled, targetStep will be totalSteps.
+    setCurrentStep(targetStep);
+    setLastSelectedStep(null); // Reset the trigger
+
+  }, [selections, lastSelectedStep, selectionKeys, totalSteps]);
+
 
   const navigateToStep = (step: number) => {
     if (isLoading) return;
@@ -176,7 +215,6 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
           <p className="text-lg text-destructive-foreground">{error}</p>
            <Button onClick={() => {
           setError(null);
-          // When trying again from an error, go to the last question step (interests)
           setCurrentStep(totalSteps); 
           setSuggestedGifts([]);
         }} className="mt-4">
@@ -198,7 +236,6 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
         </div>;
     }
 
-    // Determine which BubbleSelect to show
     switch (currentStep) {
       case 1:
         return <BubbleSelect label="Who is the gift for? (Age Range)" options={ageRanges} selectedValue={selections.ageRange} onSelect={val => handleSelect('ageRange', val)} />;
@@ -233,6 +270,20 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
                 {selectionKeys.map((key, index) => {
                   const stepForButton = index + 1;
                   const isCompleted = selections[key] !== null && (key !== 'interests' || (selections[key] as string[]).length > 0);
+                  
+                  // Logic to determine if this step summary button should be shown:
+                  // 1. It's a previous step OR the current step.
+                  // 2. OR It's the next immediate step (currentStep + 1) and currentStep is not the last questionnaire step.
+                  // 3. OR It's any step that has already been completed (isCompleted is true).
+                  const shouldShowButton = 
+                    stepForButton <= currentStep ||
+                    (stepForButton === currentStep + 1 && currentStep < totalSteps) ||
+                    isCompleted;
+
+                  if (!shouldShowButton) {
+                    return null; // Don't render this button yet
+                  }
+
                   return (
                     <React.Fragment key={key}>
                       <Button
@@ -248,7 +299,14 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
                       >
                         {stepLabels[index]}: {getStepSummaryText(key)}
                       </Button>
-                      {stepForButton < totalSteps && <span className="text-muted-foreground/30 text-base leading-none align-middle">›</span>}
+                      {/* Show separator if this button is shown and it's not the last conceptual step in the summary bar */}
+                      {stepForButton < totalSteps && 
+                       ( (stepForButton + 1 <= currentStep) || // Next step is also a past/current step
+                         (stepForButton + 1 === currentStep + 1 && currentStep + 1 < totalSteps +1) || // Next step is the upcoming one
+                         (selections[selectionKeys[index+1]] !== null && (selectionKeys[index+1] !== 'interests' || (selections[selectionKeys[index+1]] as string[]).length > 0)) // Next step is completed
+                       ) &&
+                       <span className="text-muted-foreground/30 text-base leading-none align-middle">›</span>
+                      }
                     </React.Fragment>
                   );
                 })}
