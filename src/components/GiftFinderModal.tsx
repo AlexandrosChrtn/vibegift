@@ -12,7 +12,7 @@ interface GiftFinderModalProps {
   onClose: () => void;
 }
 
-// Mock LLM call / Product fetching logic (remains the same)
+// Updated product fetching logic
 const fetchGiftSuggestions = async (selections: GiftFinderSelections): Promise<Product[]> => {
   console.log("Fetching gifts with selections:", selections);
   // Simulate API delay
@@ -20,25 +20,58 @@ const fetchGiftSuggestions = async (selections: GiftFinderSelections): Promise<P
   try {
     const response = await fetch('/products.json');
     if (!response.ok) {
+      console.error(`HTTP error! status: ${response.status} while fetching products.json`);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const allProducts: Product[] = await response.json();
     console.log("All products fetched:", allProducts.length);
+
+    if (allProducts.length === 0) {
+      console.warn("No products available in products.json");
+      return []; // Return empty if the product list itself is empty
+    }
+    
+    // Determine the number of products to show, up to 5, but not more than available
+    const minProductsToShow = Math.min(5, allProducts.length);
+
     const filteredProducts = allProducts.filter(product => {
       const ageMatch = selections.ageRange ? product.ageRange.includes(selections.ageRange) : true;
       const genderMatch = selections.gender ? product.gender.includes(selections.gender) : true;
       const occasionMatch = selections.occasion ? product.occasion.includes(selections.occasion) : true;
-      const interestMatch = selections.interests.length > 0 ? selections.interests.some(interest => product.interests.includes(interest)) : true;
+      const interestMatch = selections.interests.length > 0 
+        ? selections.interests.some(interest => product.interests.includes(interest)) 
+        : true;
       return ageMatch && genderMatch && occasionMatch && interestMatch;
     });
-    console.log("Filtered products:", filteredProducts.length);
+    console.log("Filtered products based on criteria:", filteredProducts.length);
 
-    // Shuffle and pick up to 5
-    const shuffled = filteredProducts.sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, 5);
+    let suggestedGifts: Product[] = [];
+
+    if (filteredProducts.length > 0) {
+      // Shuffle filtered products and take up to minProductsToShow
+      const shuffledFiltered = [...filteredProducts].sort(() => 0.5 - Math.random());
+      suggestedGifts = shuffledFiltered.slice(0, minProductsToShow);
+    }
+
+    // If not enough gifts from filtered list, supplement with random products from allProducts
+    if (suggestedGifts.length < minProductsToShow) {
+      const remainingNeeded = minProductsToShow - suggestedGifts.length;
+      // Get products from allProducts that are not already in suggestedGifts
+      const suggestedGiftIds = new Set(suggestedGifts.map(p => p.id));
+      const complementaryProducts = allProducts.filter(p => !suggestedGiftIds.has(p.id));
+      
+      const shuffledComplementary = [...complementaryProducts].sort(() => 0.5 - Math.random());
+      suggestedGifts.push(...shuffledComplementary.slice(0, remainingNeeded));
+    }
+    
+    console.log("Final suggested gifts count:", suggestedGifts.length);
+    return suggestedGifts;
+
   } catch (error) {
-    console.error("Error fetching or processing products:", error);
-    return []; // Return empty array on error
+    console.error("Error fetching or processing products in fetchGiftSuggestions:", error);
+    // On any error during fetching/processing, return empty array.
+    // The calling function (findGifts) will handle displaying a generic error to the user.
+    return []; 
   }
 };
 
@@ -132,9 +165,6 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
       if (stepKey === 'interests') {
         isAnswered = selections.interests.length > 0;
       } else {
-        // selections[stepKey] might be stale here if setSelections hasn't updated the 'selections' state
-        // for *this* render cycle yet. However, for *subsequent* steps, it's fine.
-        // The selection for `lastSelectedStep` itself IS updated in `selections` by the time this effect runs.
         isAnswered = selections[stepKey] !== null;
       }
 
@@ -145,8 +175,6 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
       }
     }
     
-    // If all subsequent steps were already answered, targetStep remains totalSteps.
-    // If lastSelectedStep was already totalSteps-1 and interests is not filled, targetStep will be totalSteps.
     setCurrentStep(targetStep);
     setLastSelectedStep(null); // Reset the trigger
 
@@ -180,12 +208,15 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
     setSuggestedGifts([]);
     try {
       const gifts = await fetchGiftSuggestions(selections);
-      setSuggestedGifts(gifts);
-      if (gifts.length === 0) {
-        setError("No gifts found matching your criteria. Try broadening your selections!");
+      if (gifts.length > 0) {
+        setSuggestedGifts(gifts);
+      } else {
+        // This case implies a fundamental issue with fetching or no products in products.json
+        setError("We couldn't retrieve gift suggestions at this time. Please try again later.");
       }
     } catch (e) {
-      console.error("Failed to fetch suggestions:", e);
+      // Catch unexpected errors from the findGifts async process itself
+      console.error("An unexpected error occurred while finding gifts:", e);
       setError("Oops! Something went wrong while finding gifts. Please try again.");
     } finally {
       setIsLoading(false);
@@ -215,8 +246,13 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
           <p className="text-lg text-destructive-foreground">{error}</p>
            <Button onClick={() => {
           setError(null);
-          setCurrentStep(totalSteps); 
-          setSuggestedGifts([]);
+          // If error on results, try again should ideally reset to selection or a relevant step.
+          // For now, simplest is to allow re-triggering findGifts if on last step, or let user navigate.
+          if(currentStep !== totalSteps && suggestedGifts.length === 0) {
+            setCurrentStep(totalSteps); // Go to interests if error wasn't on results view
+          }
+          // If error was on results view, findGifts can be re-triggered if applicable.
+          // Or user can edit selections.
         }} className="mt-4">
             Try Again
           </Button>
@@ -251,7 +287,9 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
   };
   
   const isFindGiftsDisabled = () => {
-    return selections.interests.length === 0;
+    // Example: require at least one interest or other criteria if desired
+    // For now, consistent with previous logic:
+    return selections.interests.length === 0; 
   };
 
   return (
@@ -271,11 +309,9 @@ const GiftFinderModal: React.FC<GiftFinderModalProps> = ({
                   const stepForButton = index + 1;
                   const isCompleted = selections[key] !== null && (key !== 'interests' || (selections[key] as string[]).length > 0);
                   
-                  // Updated logic: Show if it's a past step, the current step, or any completed step.
-                  // This prevents showing "NextStep: Not Selected" prematurely.
                   const shouldShowButton = 
-                    stepForButton <= currentStep || // Is a previous or current step
-                    isCompleted;                   // Or the step is already completed
+                    stepForButton <= currentStep || 
+                    isCompleted;                   
 
                   if (!shouldShowButton) {
                     return null;
