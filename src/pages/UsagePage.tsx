@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Lightbulb, CheckCircle, Gift } from 'lucide-react';
 
-const HowItWorksPage = () => {
+// Renamed component
+const UsagePage = () => {
   const steps = [
     {
       icon: <Lightbulb className="h-10 w-10 text-accent mb-4" />,
@@ -27,9 +28,11 @@ const HowItWorksPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-12 md:py-16">
+      {/* Reduced padding */}
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-10">
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-primary">How AI Gift Finder Works</h1>
+          {/* Updated page title */}
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-primary">How to Use AI Gift Finder</h1>
           <p className="text-lg md:text-xl text-muted-foreground">
             Finding the perfect gift is easy with our simple 3-step process.
           </p>
@@ -47,8 +50,9 @@ const HowItWorksPage = () => {
           ))}
         </div>
         <div className="text-center">
-          <Button asChild size="lg">
-            <Link to="/">Back to Home</Link>
+          {/* Updated button text and ensured animate-pulse */}
+          <Button asChild size="lg" className="animate-pulse">
+            <Link to="/">Let's Find Some Gifts!</Link>
           </Button>
         </div>
       </main>
@@ -57,4 +61,5 @@ const HowItWorksPage = () => {
   );
 };
 
-export default HowItWorksPage;
+// Export renamed component
+export default UsagePage;

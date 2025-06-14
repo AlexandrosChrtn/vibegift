@@ -9,7 +9,8 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-12 md:py-16">
+      {/* Reduced padding */}
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-10">
         <div className="max-w-3xl mx-auto text-center">
           <Info className="h-16 w-16 text-primary mx-auto mb-6" />
           <h1 className="text-3xl md:text-4xl font-bold mb-6 text-primary">About This Project</h1>
@@ -19,8 +20,9 @@ const AboutPage = () => {
           <p className="text-md text-muted-foreground mb-10">
             The goal is to showcase how AI can simplify and enhance the gift-giving experience.
           </p>
-          <Button asChild size="lg">
-            <Link to="/">Back to Home</Link>
+          {/* Updated button text and ensured animate-pulse */}
+          <Button asChild size="lg" className="animate-pulse">
+            <Link to="/">Let's Find Some Gifts!</Link>
           </Button>
         </div>
       </main>

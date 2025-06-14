@@ -9,7 +9,7 @@ const TermsAndConditionsPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-12 md:py-16">
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-10"> {/* Reduced padding */}
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <div className="inline-block relative">
@@ -19,9 +19,11 @@ const TermsAndConditionsPage = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-primary">The "Don't Blame Us" Clause</h1>
           </div>
           <div className="prose prose-lg max-w-none text-muted-foreground bg-card p-6 sm:p-8 rounded-lg shadow-xl text-center">
-            <p className="text-xl">We are not responsible if your kid doesn't like the medieval musical instrument we recommended. You should have known better. 🤷‍♂️ This is a demo app, after all! Use with a sense of humor.</p>
+            {/* Updated text */}
+            <p className="text-xl">We are not responsible if your kid doesn't like the medieval musical instrument we recommended. You should have known better.</p>
           </div>
           <div className="text-center mt-10">
+            {/* Ensured button text is consistent and has animate-pulse */}
             <Button asChild size="lg" className="animate-pulse">
               <RouterLink to="/">Let's Find Some Gifts!</RouterLink>
             </Button>

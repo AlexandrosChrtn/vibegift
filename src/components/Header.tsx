@@ -21,7 +21,8 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
 const Header = () => {
   const navLinks = [
     { to: "/about", label: "About" },
-    { to: "/how-it-works", label: "How It Works" },
+    // { to: "/how-it-works", label: "How It Works" }, // Old link
+    { to: "/usage", label: "Usage" }, // New link
     { to: "/privacy-policy", label: "Privacy" },
     { to: "/terms-and-conditions", label: "Terms" },
   ];
