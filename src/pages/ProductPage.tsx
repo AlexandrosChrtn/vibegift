@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Product } from '@/types';
@@ -98,19 +97,19 @@ const ProductPage = () => {
               <div className="space-y-3">
                 <Button size="lg" className="w-full justify-between" variant="outline" asChild>
                     <a href="#" target="_blank" rel="noopener noreferrer">
-                        <span>Shop on Amazon</span>
+                        <span>Find on Nile</span>
                         <ShoppingCart className="h-5 w-5" />
                     </a>
                 </Button>
                 <Button size="lg" className="w-full justify-between" variant="outline" asChild>
                     <a href="#" target="_blank" rel="noopener noreferrer">
-                        <span>Buy at Walmart</span>
+                        <span>Find on Walnut</span>
                         <ShoppingCart className="h-5 w-5" />
                     </a>
                 </Button>
                 <Button size="lg" className="w-full justify-between" variant="outline" asChild>
                      <a href="#" target="_blank" rel="noopener noreferrer">
-                        <span>Find on Etsy</span>
+                        <span>Find on BestMarket</span>
                         <ShoppingCart className="h-5 w-5" />
                     </a>
                 </Button>
