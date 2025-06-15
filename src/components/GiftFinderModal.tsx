@@ -31,8 +31,8 @@ const fetchGiftSuggestions = async (selections: GiftFinderSelections): Promise<P
       return []; // Return empty if the product list itself is empty
     }
     
-    // Determine the number of products to show, up to 5, but not more than available
-    const minProductsToShow = Math.min(5, allProducts.length);
+    // Determine the number of products to show, up to 6, but not more than available
+    const minProductsToShow = Math.min(6, allProducts.length);
 
     const filteredProducts = allProducts.filter(product => {
       const ageMatch = selections.ageRange ? product.ageRange.includes(selections.ageRange) : true;
