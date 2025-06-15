@@ -32,7 +32,7 @@ const Header = () => {
       <div className="container mx-auto flex items-center justify-between">
         <RouterLink to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
           <Gift className="h-8 w-8 text-primary" />
-          <h1 className="text-2xl font-bold text-primary">AI Gift Finder</h1>
+          <h1 className="text-2xl font-bold text-primary">VibeGift</h1>
         </RouterLink>
         
         {/* Desktop Navigation */}

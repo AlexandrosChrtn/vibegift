@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import GiftFinderModal from '@/components/GiftFinderModal';
@@ -29,10 +30,10 @@ const HomePage = () => {
           animationDuration: '2s'
         }} />
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">
-            Discover the Perfect Gift, Effortlessly.
+            Discover the Perfect Gifts, for Everyone.
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
-            Tired of endless scrolling? Let our AI-powered gift finder help you choose thoughtful presents for your loved ones based on their unique characteristics and interests.
+            Making gifts simpler.
           </p>
           <Button size="lg" className="px-10 py-6 text-lg font-semibold group animate-pulse bg-accent hover:bg-accent/90 text-accent-foreground" onClick={() => setIsModalOpen(true)}>
             Find a Gift Now <Search className="ml-2 h-5 w-5 group-hover:scale-110 transition-transform" />

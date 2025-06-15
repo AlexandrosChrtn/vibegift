@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer className="py-8 bg-muted text-muted-foreground mt-auto">
       <div className="container mx-auto text-center">
-        <p>&copy; {currentYear} AI Gift Finder. All rights reserved.</p>
+        <p>&copy; {currentYear} VibeGift. All rights reserved.</p>
         <p className="text-sm mt-1">Powered by Lovable AI</p>
         <p className="text-xs mt-1">Project by Alexandros Chariton</p>
       </div>

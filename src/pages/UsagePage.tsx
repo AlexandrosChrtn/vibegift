@@ -32,7 +32,7 @@ const UsagePage = () => {
       <main className="flex-grow container mx-auto px-4 py-8 md:py-10">
         <div className="max-w-3xl mx-auto text-center mb-12">
           {/* Updated page title */}
-          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-primary">How to Use AI Gift Finder</h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-6 text-primary">How to Use VibeGift</h1>
           <p className="text-lg md:text-xl text-muted-foreground">
             Finding the perfect gift is easy with our simple 3-step process.
           </p>
