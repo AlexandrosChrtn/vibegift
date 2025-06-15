@@ -1,8 +1,8 @@
-
 import { Product } from '@/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface ProductCardProps {
   product: Product;
@@ -10,7 +10,6 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const imageUrl = product.imageName === 'placeholder.svg' ? `/placeholder.svg` : `https://images.unsplash.com/${product.imageName}?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600`;
-
 
   return (
     <Card className="w-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 animate-pop-in flex flex-col">
@@ -27,8 +26,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <CardDescription className="text-sm text-muted-foreground line-clamp-3">{product.description}</CardDescription>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <Button variant="outline" size="sm" className="w-full group">
-          View Product <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+        <Button asChild variant="outline" size="sm" className="w-full group">
+          <Link to={`/product/${product.id}`}>
+            View Product <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </Button>
       </CardFooter>
     </Card>
