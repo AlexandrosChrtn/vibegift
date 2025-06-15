@@ -24,7 +24,8 @@
     "id": 3,
     "name": "Wireless Headphones",
     "description": "Immersive sound experience, perfect for music lovers.",
-    "imageName": "placeholder.svg", "ageRange": ["13-17", "18-25", "26-40"],
+    "imageName": "photo-1505740420928-5e590396c54e", 
+    "ageRange": ["13-17", "18-25", "26-40"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Music", "Tech", "Gaming"]
@@ -33,7 +34,8 @@
     "id": 4,
     "name": "Smartwatch Fitness Tracker",
     "description": "Stay active and connected with this advanced smartwatch.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60"],
+    "imageName": "photo-1546868871-7041f2a55e12", 
+    "ageRange": ["18-25", "26-40", "41-60"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Sports", "Tech", "Health"]
@@ -42,7 +44,8 @@
     "id": 5,
     "name": "Gourmet Coffee Collection",
     "description": "A selection of premium coffee beans for the connoisseur.",
-    "imageName": "placeholder.svg", "ageRange": ["26-40", "41-60", "60+"],
+    "imageName": "photo-1551030173-122aabc238b7", 
+    "ageRange": ["26-40", "41-60", "60+"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Thank You", "Holiday"],
     "interests": ["Cooking", "Foodie"]
@@ -51,7 +54,8 @@
     "id": 6,
     "name": "Adventure Backpack",
     "description": "Durable and spacious backpack for all your travels.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40"],
+    "imageName": "photo-1553062407-98eeb6dc3d95", 
+    "ageRange": ["18-25", "26-40"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Holiday", "Travel"],
     "interests": ["Travel", "Outdoors", "Sports"]
@@ -60,7 +64,8 @@
     "id": 7,
     "name": "Classic Novel Set",
     "description": "A collection of timeless literary masterpieces.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60", "60+"],
+    "imageName": "photo-1550399105-c4db5fb85c18", 
+    "ageRange": ["18-25", "26-40", "41-60", "60+"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Books", "Literature"]
@@ -69,7 +74,8 @@
     "id": 8,
     "name": "Artist's Sketching Kit",
     "description": "Everything needed to unleash creativity on paper.",
-    "imageName": "placeholder.svg", "ageRange": ["13-17", "18-25", "26-40"],
+    "imageName": "photo-1513364776144-60967b0f800f", 
+    "ageRange": ["13-17", "18-25", "26-40"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Art", "Crafts"]
@@ -78,7 +84,8 @@
     "id": 9,
     "name": "Board Game Night Pack",
     "description": "Fun and engaging board games for family and friends.",
-    "imageName": "placeholder.svg", "ageRange": ["6-12", "13-17", "18-25", "26-40"],
+    "imageName": "photo-1608111194239-4b68453c9428", 
+    "ageRange": ["6-12", "13-17", "18-25", "26-40"],
     "gender": ["Unisex/Other"],
     "occasion": ["Holiday", "Just Because"],
     "interests": ["Gaming", "Family"]
@@ -87,7 +94,8 @@
     "id": 10,
     "name": "Luxury Scented Candles",
     "description": "Create a relaxing ambiance with these aromatic candles.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60"],
+    "imageName": "photo-1601121141499-17ae80afc03a", 
+    "ageRange": ["18-25", "26-40", "41-60"],
     "gender": ["Female", "Unisex/Other"],
     "occasion": ["Birthday", "Thank You", "Holiday"],
     "interests": ["Home Decor", "Wellness"]
@@ -96,7 +104,8 @@
     "id": 11,
     "name": "Portable Bluetooth Speaker",
     "description": "Compact speaker with powerful sound for music on the go.",
-    "imageName": "placeholder.svg", "ageRange": ["13-17", "18-25", "26-40"],
+    "imageName": "photo-1589009842854-523c9a1e435a", 
+    "ageRange": ["13-17", "18-25", "26-40"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Music", "Tech", "Outdoors"]
@@ -105,7 +114,8 @@
     "id": 12,
     "name": "Designer Silk Scarf",
     "description": "An elegant accessory to elevate any outfit.",
-    "imageName": "placeholder.svg", "ageRange": ["26-40", "41-60"],
+    "imageName": "photo-1529374255404-311a2a4f1fd9", 
+    "ageRange": ["26-40", "41-60"],
     "gender": ["Female"],
     "occasion": ["Birthday", "Anniversary", "Holiday"],
     "interests": ["Fashion", "Luxury"]
@@ -114,7 +124,8 @@
     "id": 13,
     "name": "Yoga & Meditation Set",
     "description": "Essentials for a mindful and relaxing practice.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60"],
+    "imageName": "photo-1544367567-0f2fcb009e0b", 
+    "ageRange": ["18-25", "26-40", "41-60"],
     "gender": ["Female", "Unisex/Other"],
     "occasion": ["Birthday", "Holiday", "Just Because"],
     "interests": ["Wellness", "Health", "Sports"]
@@ -123,7 +134,8 @@
     "id": 14,
     "name": "VR Headset",
     "description": "Step into new worlds with this immersive VR headset.",
-    "imageName": "placeholder.svg", "ageRange": ["13-17", "18-25", "26-40"],
+    "imageName": "photo-1593508512255-86ab42a8e620", 
+    "ageRange": ["13-17", "18-25", "26-40"],
     "gender": ["Male", "Unisex/Other"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Gaming", "Tech"]
@@ -132,7 +144,8 @@
     "id": 15,
     "name": "Indoor Herb Garden Kit",
     "description": "Grow fresh herbs at home, perfect for cooking enthusiasts.",
-    "imageName": "placeholder.svg", "ageRange": ["26-40", "41-60", "60+"],
+    "imageName": "photo-1593019247852-d698f2de0e97", 
+    "ageRange": ["26-40", "41-60", "60+"],
     "gender": ["Unisex/Other", "Female"],
     "occasion": ["Birthday", "Housewarming", "Holiday"],
     "interests": ["Cooking", "Gardening", "Home Decor"]
@@ -141,7 +154,8 @@
     "id": 16,
     "name": "Subscription Box - Books",
     "description": "Monthly delivery of curated books.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60"],
+    "imageName": "photo-1571951558561-38e3a20a46b9", 
+    "ageRange": ["18-25", "26-40", "41-60"],
     "gender": ["Unisex/Other"],
     "occasion": ["Birthday", "Holiday", "Subscription"],
     "interests": ["Books", "Reading"]
@@ -150,7 +164,8 @@
     "id": 17,
     "name": "Retro Gaming Console",
     "description": "Relive classic video games with this retro console.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40"],
+    "imageName": "photo-1531525645387-7f14be1bdbbd", 
+    "ageRange": ["18-25", "26-40"],
     "gender": ["Male", "Unisex/Other"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Gaming", "Tech", "Nostalgia"]
@@ -159,7 +174,8 @@
     "id": 18,
     "name": "DIY Craft Kit - Jewelry Making",
     "description": "Create your own unique jewelry pieces.",
-    "imageName": "placeholder.svg", "ageRange": ["13-17", "18-25"],
+    "imageName": "photo-1611242320531-351b43924619", 
+    "ageRange": ["13-17", "18-25"],
     "gender": ["Female", "Unisex/Other"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Crafts", "Fashion", "Art"]
@@ -168,7 +184,8 @@
     "id": 19,
     "name": "Professional Chef's Knife",
     "description": "A high-quality knife for the aspiring or professional chef.",
-    "imageName": "placeholder.svg", "ageRange": ["26-40", "41-60"],
+    "imageName": "photo-1620200373322-6804bac3b36c", 
+    "ageRange": ["26-40", "41-60"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Holiday", "Housewarming"],
     "interests": ["Cooking", "Foodie"]
@@ -177,7 +194,8 @@
     "id": 20,
     "name": "Travel Journal & Pen Set",
     "description": "Document your adventures with this stylish journal set.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40"],
+    "imageName": "photo-1495107334309-fcf292349544", 
+    "ageRange": ["18-25", "26-40"],
     "gender": ["Unisex/Other", "Female"],
     "occasion": ["Birthday", "Travel", "Graduation"],
     "interests": ["Travel", "Writing", "Books"]
@@ -186,7 +204,8 @@
     "id": 21,
     "name": "Educational Toy Robot",
     "description": "Fun and interactive robot that teaches coding basics.",
-    "imageName": "placeholder.svg", "ageRange": ["6-12", "0-5"],
+    "imageName": "photo-1535378620166-273703d21372", 
+    "ageRange": ["6-12", "0-5"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Tech", "Education", "Toys"]
@@ -195,7 +214,8 @@
     "id": 22,
     "name": "Stylish Leather Wallet",
     "description": "A sophisticated wallet made from genuine leather.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60"],
+    "imageName": "photo-1615396899387-a2f7f526a054", 
+    "ageRange": ["18-25", "26-40", "41-60"],
     "gender": ["Male"],
     "occasion": ["Birthday", "Anniversary", "Holiday", "Thank You"],
     "interests": ["Fashion", "Accessories"]
@@ -213,7 +233,8 @@
     "id": 24,
     "name": "Plush Throw Blanket",
     "description": "Ultra-soft and cozy blanket, perfect for chilly evenings.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60", "60+"],
+    "imageName": "photo-1616627561839-07319140df35", 
+    "ageRange": ["18-25", "26-40", "41-60", "60+"],
     "gender": ["Unisex/Other", "Female"],
     "occasion": ["Holiday", "Just Because", "Housewarming"],
     "interests": ["Home Decor", "Comfort", "Wellness"]
@@ -222,7 +243,8 @@
     "id": 25,
     "name": "Puzzle Collection - 1000 pieces",
     "description": "Challenging and beautiful puzzles for hours of entertainment.",
-    "imageName": "placeholder.svg", "ageRange": ["13-17", "18-25", "26-40", "41-60", "60+"],
+    "imageName": "photo-1561571994-37e1c3a647a8", 
+    "ageRange": ["13-17", "18-25", "26-40", "41-60", "60+"],
     "gender": ["Unisex/Other"],
     "occasion": ["Holiday", "Just Because"],
     "interests": ["Gaming", "Hobbies", "Art"]
@@ -231,7 +253,8 @@
     "id": 26,
     "name": "Elegant Tea Set",
     "description": "A beautiful porcelain tea set for the perfect afternoon tea.",
-    "imageName": "placeholder.svg", "ageRange": ["26-40", "41-60", "60+"],
+    "imageName": "photo-1596701555462-97216a6907c0", 
+    "ageRange": ["26-40", "41-60", "60+"],
     "gender": ["Female", "Unisex/Other"],
     "occasion": ["Birthday", "Anniversary", "Holiday", "Thank You"],
     "interests": ["Home Decor", "Foodie", "Luxury"]
@@ -240,7 +263,8 @@
     "id": 27,
     "name": "Gardening Tool Set",
     "description": "Essential tools for any gardening enthusiast.",
-    "imageName": "placeholder.svg", "ageRange": ["26-40", "41-60", "60+"],
+    "imageName": "photo-1416879595882-3373a0480b5b", 
+    "ageRange": ["26-40", "41-60", "60+"],
     "gender": ["Unisex/Other"],
     "occasion": ["Birthday", "Holiday", "Spring"],
     "interests": ["Gardening", "Outdoors", "Home Decor"]
@@ -249,7 +273,8 @@
     "id": 28,
     "name": "Beginner's Ukulele Kit",
     "description": "Learn to play the ukulele with this all-in-one kit.",
-    "imageName": "placeholder.svg", "ageRange": ["13-17", "18-25"],
+    "imageName": "photo-1550291652-6ea92a558718", 
+    "ageRange": ["13-17", "18-25"],
     "gender": ["Unisex/Other"],
     "occasion": ["Birthday", "Holiday"],
     "interests": ["Music", "Hobbies", "Art"]
@@ -258,7 +283,8 @@
     "id": 29,
     "name": "Insulated Travel Mug",
     "description": "Keep your drinks hot or cold for hours.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60"],
+    "imageName": "photo-1563227812-0ea4c22e6cc8", 
+    "ageRange": ["18-25", "26-40", "41-60"],
     "gender": ["Unisex/Other", "Male", "Female"],
     "occasion": ["Birthday", "Thank You", "Holiday", "Just Because"],
     "interests": ["Travel", "Work", "Outdoors", "Foodie"]
@@ -267,7 +293,8 @@
     "id": 30,
     "name": "Personalized Star Map",
     "description": "A beautiful map of the stars on a specific date.",
-    "imageName": "placeholder.svg", "ageRange": ["18-25", "26-40", "41-60"],
+    "imageName": "photo-1635372716239-1834231005f4", 
+    "ageRange": ["18-25", "26-40", "41-60"],
     "gender": ["Unisex/Other"],
     "occasion": ["Anniversary", "Birthday", "Wedding"],
     "interests": ["Romantic", "Art", "Home Decor", "Astronomy"]
