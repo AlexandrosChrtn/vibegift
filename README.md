@@ -1,5 +1,5 @@
 # VibeGift
-The absolute best way to find gifts for every person, for every occasion. An instance of the application is hosted [here](https://vibe-gift.lovable.app) with a mock database.
+The absolute best way to find gifts for every person, for every occasion. An instance of the application is hosted [here](https://vibe-gift.lovable.app) with a mock database. The code is (near) ready to be used in desktop, tablet or mobile.
 
 ## Demo
 <div align="center">
